@@ -5,6 +5,42 @@ import csv
 import pandas as pd
 import os
 
+# 32 math categories
+math_categories = [
+    "math.AG",
+    "math.AT",
+    "math.AP",
+    "math.CT",
+    "math.CA",
+    "math.CO",
+    "math.AC",
+    "math.CV",
+    "math.DG",
+    "math.DS",
+    "math.FA",
+    "math.GM",
+    "math.GN",
+    "math.GT",
+    "math.GR",
+    "math.HO",
+    "math.IT",
+    "math.KT",
+    "math.LO",
+    "math.MP",
+    "math.MG",
+    "math.NT",
+    "math.NA",
+    "math.OA",
+    "math.OC",
+    "math.PR",
+    "math.QA",
+    "math.RT",
+    "math.RA",
+    "math.SP",
+    "math.ST",
+    "math.SG",
+]
+
 # Given category of arXiv, get arxiv paper id and output list.
 def get_arxiv_papers_link(category="math.AG", max_papers=5, save_dir="./arxiv_papers"):
     html_link = []
@@ -28,7 +64,7 @@ def get_arxiv_papers_link(category="math.AG", max_papers=5, save_dir="./arxiv_pa
             abstract_page = base_url + link["href"]
             extracted_content = abstract_page.rsplit('/', 1)[-1] +"v1"
             html_link.append(extracted_content)
-        print(html_link)
+        #print(html_link)
         return html_link
             
 
@@ -66,11 +102,21 @@ def get_math_expressions(arxiv_id, file_name='math_expressions.csv'):
         return -1
 
 # get formula in csv.
-for id in get_arxiv_papers_link():
-    try:
-        get_math_expressions(id, file_name=f"csv_files/{id}_tex.csv")
-    except Exception as e:
-        continue
+    # 32 * 30 = 960 papers
+count = 0
+for categ in math_categories:
+    for id in get_arxiv_papers_link(category=categ, max_papers=30, save_dir="./arxiv_papers"):
+        try:
+            get_math_expressions(id, file_name=f"csv_files/{id}_tex.csv")
+            count = count + 1
+            print(count, "/ 960")
+        except Exception as e:
+            count = count + 1
+            print(count, "/ 960")
+            continue
+            
+
+
 
 
 
