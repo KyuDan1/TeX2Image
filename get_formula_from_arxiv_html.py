@@ -104,6 +104,7 @@ def get_math_expressions(arxiv_id, file_name='math_expressions.csv'):
 # get formula in csv.
     # 32 * 30 = 960 papers
 count = 0
+error_count = 0
 for categ in math_categories:
     for id in get_arxiv_papers_link(category=categ, max_papers=30, save_dir="./arxiv_papers"):
         try:
@@ -112,8 +113,10 @@ for categ in math_categories:
             print(count, "/ 960")
         except Exception as e:
             count = count + 1
+            error_count = error_count +1
             print(count, "/ 960")
             continue
+print(f"complete, error:{error_count}  complete:{960-error_count}")
             
 
 
