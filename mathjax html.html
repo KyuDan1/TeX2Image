@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MathJax Example</title>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <p>This is an equation: ${f_{1}:\Sigma_{1}\to\mathbb{R}^{3}}$ rendered by MathJax.</p>
+    <p>This is an equation: $\displaystyle\quad-\frac{2}{|f-a|^{2}}\Bigg{(}\langle f-a,\partial_{i}f\rangle%
+        \partial_{j}f+\langle f-a,\partial_{j}f\rangle\partial_{i}f\Bigg{)}$ rendered by MathJax.</p>
+    <p>This is an equation: $\hat{\psi}_{k}\operatorname{\rightharpoonup}\hat{\psi}_{\infty}\quad\text{ in %
+    }W^{2,2}(B_{1/\alpha^{\prime}}(0)\setminus B_{\alpha^{\prime}}(0)).$ rendered by MathJax.</p>
+
+    </body>
+</html>
