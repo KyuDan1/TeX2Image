@@ -1,27 +1,57 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs').promises;
+const path = require('path');
 
-(async () => {
+const html_files_directory_path = 'C:/Users/wjdrb/vscode_code/htmls';
+const captured_images_directory = 'captured_images';
+
+// 리스너의 최대 개수 조정
+require('events').EventEmitter.defaultMaxListeners = 15;
+
+// HTML 파일을 처리하는 함수
+async function processHtmlFile(filePath) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  
 
-// 뷰포트를 1920x1080으로 설정하고 deviceScaleFactor를 2로 설정하여 해상도를 높임
-    await page.setViewport({
+  await page.setViewport({
     width: 1920,
     height: 1080,
     deviceScaleFactor: 2,
-    });
+  });
 
-  // HTML 파일의 로컬 경로 또는 웹 URL을 여기에 입력하세요.
-  await page.goto('C:/Users/wjdrb/vscode_code/mathjax html.html', {waitUntil: 'networkidle2'});
+  // 로컬 HTML 파일 경로로 이동
+  await page.goto(`file://${filePath}`, {waitUntil: 'networkidle2'});
 
-  // MathJax가 렌더링한 수학식을 포함하는 요소를 찾음 (예: 모든 <p> 태그)
+  // 'mjx-math' 요소가 가시적일 때까지 대기
+  await page.waitForSelector('mjx-math', {visible: true});
+
   const elements = await page.$$('mjx-math');
 
-  // 각 요소의 스크린샷 캡처
   for (let i = 0; i < elements.length; i++) {
-    await elements[i].screenshot({path: `captured_images/equation_${i + 1}.png`});
+    try {
+      const screenshotPath = path.join(__dirname, captured_images_directory, `equation_${path.basename(filePath, '.html')}_${i + 1}.png`);
+      await elements[i].screenshot({path: screenshotPath});
+    } catch (error) {
+      console.error(`오류 발생: 파일 '${path.basename(filePath)}', 요소 인덱스 ${i + 1} - ${error.message}`);
+      // 오류를 캐치했으나, 루프는 계속됩니다.
+    }
   }
 
   await browser.close();
+}
+
+(async () => {
+  try {
+    const files = await fs.readdir(html_files_directory_path);
+    const htmlFiles = files.filter(file => file.endsWith('.html'));
+
+    await Promise.all(htmlFiles.map(file => {
+      const filePath = path.join(html_files_directory_path, file);
+      return processHtmlFile(filePath);
+    }));
+
+    console.log('모든 HTML 파일이 처리되었습니다.');
+  } catch (error) {
+    console.error('오류 발생:', error);
+  }
 })();

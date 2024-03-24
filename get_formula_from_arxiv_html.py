@@ -102,21 +102,21 @@ def get_math_expressions(arxiv_id, file_name='math_expressions.csv'):
         return -1
 
 # get formula in csv.
-    # 32 * 30 = 960 papers
+    # 32 * 500 = 16000 papers
 count = 0
 error_count = 0
 for categ in math_categories:
-    for id in get_arxiv_papers_link(category=categ, max_papers=30, save_dir="./arxiv_papers"):
+    for id in get_arxiv_papers_link(category=categ, max_papers=500, save_dir="./arxiv_papers"):
         try:
             get_math_expressions(id, file_name=f"csv_files/{id}_tex.csv")
             count = count + 1
-            print(count, "/ 960")
+            print(count, "/ 16000")
         except Exception as e:
             count = count + 1
             error_count = error_count +1
-            print(count, "/ 960")
+            print(count, "/ 16000")
             continue
-print(f"complete, error:{error_count}  complete:{960-error_count}")
+print(f"complete, error:{error_count}  complete:{16000-error_count}")
             
 
 
@@ -137,4 +137,3 @@ combined_df = pd.concat(tex_data).drop_duplicates().reset_index(drop=True)
 output_path = os.path.join(folder_path, 'combined_tex.csv')
 combined_df.to_csv(output_path, index=False)
 print(f'combined csv file : {output_path}')
-
