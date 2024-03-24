@@ -11,11 +11,11 @@
 
 3. For 32 math categories, equations are extracted for 30 papers per category. (Total 960 papers). A csv file is created for each paper, and finally, all are combined into one csv file.
 
-## 2. Bring TeX datas in HTML file with MathJax
+## 2. Bring TeX datas in HTML file with MathJax (Editing)
 * MathJax can compile a wide range of expressions.
 * Bring TeX datas in csv file from 1. in HTML file.
 
-## 3. Capture the formula images in page
+## 3. Capture the formula images in page (Editing)
 * Using puppeteer and Node.js, we can capture the images.
 
 ## Finally, we can get TeX data and Images.
