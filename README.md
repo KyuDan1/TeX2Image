@@ -9,7 +9,7 @@
 
 2. If an HTML file exists for a paper's ID, the HTML file is retrieved. (There are cases where no HTML file exists.) The HTML file contains equations in math alttext tags. These equations are extracted using BeautifulSoup. All these equations are successfully compiled in arXiv's HTML viewer.
 
-3. For 32 math categories, equations are extracted for 30 papers per category. (Total 960 papers). A csv file is created for each paper, and finally, all are combined into one csv file.
+3. For 32 math categories, equations are extracted for n papers per category. (Total 32*n papers). A csv file is created for each paper, and finally, all are combined into one csv file.
 
 ## 2. Bring TeX datas in HTML file with MathJax (Editing)
 * MathJax can compile a wide range of expressions.
